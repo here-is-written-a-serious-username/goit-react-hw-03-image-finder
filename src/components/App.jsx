@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+// import React, { Component } from 'react';
 
 
 export const App = () => {
   return (
 
     <>
-
     </>
 
   );
