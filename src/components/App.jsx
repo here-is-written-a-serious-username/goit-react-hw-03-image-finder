@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import ImageGallery from './ImageGallery';
 import Searchbar from './Searchbar';
+import getPhoto from './getPhoto'
+
+
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
+
+let lightbox = new SimpleLightbox('.gallery a');
 
 
 export class App extends Component {
@@ -11,12 +18,12 @@ export class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.search !== this.state.search) {
-      fetch('https://pixabay.com/api/?q=cat&page=1&key=33211320-dec57621770c8fad3b041e20d&image_type=photo&orientation=horizontal&per_page=12').then(response => response.json())
-        .then(obj => {
-          this.setState({
-            photos: obj.hits
-          });
+      getPhoto(this.state.search).then(obj => {
+        this.setState({
+          photos: obj.hits
         });
+        lightbox.refresh();
+      });
     }
   }
 
@@ -30,7 +37,7 @@ export class App extends Component {
 
       <div className='App'>
         <Searchbar onSubmit={this.handleSubmit} />
-        <ImageGallery aaa={this.state.photos} />
+        <ImageGallery photos={this.state.photos} />
       </div>
 
     );
