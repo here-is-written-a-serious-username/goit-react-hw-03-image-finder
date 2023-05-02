@@ -2,14 +2,13 @@ import React from "react";
 import ImageGalleryItem from "./ImageGalleryItem";
 
 
-const ImageGallery = ({ aaa }) => {
+const ImageGallery = ({ photos }) => {
 
     return (
-        <ul className="ImageGallery">
-            {aaa.map((a) => (
-                <ImageGalleryItem key={a.webformatURL} sourse={a.webformatURL} />
-            ))
-            }
+        <ul className="ImageGallery gallery">
+            {photos.map((photo) => (
+                <ImageGalleryItem key={photo.id} webformatURL={photo.webformatURL} largeImageURL={photo.largeImageURL} />
+            ))}
         </ul>
     )
 };

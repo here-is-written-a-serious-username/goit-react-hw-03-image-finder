@@ -6,6 +6,7 @@ import getPhoto from './getPhoto'
 
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
+import Button from './Button';
 
 let lightbox = new SimpleLightbox('.gallery a');
 
@@ -22,10 +23,15 @@ export class App extends Component {
         this.setState({
           photos: obj.hits
         });
-        lightbox.refresh();
-      });
+      })
     }
+
+    if (prevState.photos !== this.state.photos) {
+      lightbox.refresh()
+    }
+
   }
+
 
   handleSubmit = (search) => {
     this.setState(search);
@@ -38,6 +44,7 @@ export class App extends Component {
       <div className='App'>
         <Searchbar onSubmit={this.handleSubmit} />
         <ImageGallery photos={this.state.photos} />
+        <Button />
       </div>
 
     );
