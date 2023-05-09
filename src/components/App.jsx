@@ -14,27 +14,49 @@ let lightbox = new SimpleLightbox('.gallery a');
 export class App extends Component {
   state = {
     search: '',
+    page: 1,
     photos: [],
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.search !== this.state.search) {
-      getPhoto(this.state.search).then(obj => {
+
+      this.setState({
+        page: 1,
+      });
+      getPhoto(this.state.search, this.state.page).then(obj => {
         this.setState({
-          photos: obj.hits
+          photos: obj.hits,
         });
+      })
+    }
+    //&& this.state.page !== 1
+    if (prevState.page !== this.state.page && this.state.page !== 1) {
+      console.log(this.state.page)
+      getPhoto(this.state.search, this.state.page).then(obj => {
+        this.setState(prevState => ({
+          photos: [...prevState.photos, ...obj.hits],
+        }));
       })
     }
 
     if (prevState.photos !== this.state.photos) {
-      lightbox.refresh()
+      lightbox.refresh();
     }
-
   }
+
 
 
   handleSubmit = (search) => {
     this.setState(search);
+  }
+
+  pageCount = () => {
+    // page = this.state.page + 1;
+    this.setState({
+      page: this.state.page + 1
+    });
+    // console.log(this.state.page);
   }
 
   render() {
@@ -44,7 +66,7 @@ export class App extends Component {
       <div className='App'>
         <Searchbar onSubmit={this.handleSubmit} />
         <ImageGallery photos={this.state.photos} />
-        <Button />
+        {this.state.photos.length && <Button nextPage={this.pageCount} />}
       </div>
 
     );
