@@ -1,8 +1,8 @@
 import React from "react";
 
-const Button = ({ nextPage }) => {
+const Button = ({ nextPage, isdisabledBtn }) => {
     return (
-        <button type='button' className='Button' onClick={nextPage}>Load more</button>
+        <button disabled={isdisabledBtn} type='button' className='Button' onClick={nextPage}>Load more</button>
     )
 }
 
