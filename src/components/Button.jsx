@@ -1,4 +1,5 @@
 import React from "react";
+import { PropTypes } from 'prop-types';
 
 const Button = ({ nextPage, isdisabledBtn }) => {
     return (
@@ -8,3 +9,7 @@ const Button = ({ nextPage, isdisabledBtn }) => {
 
 export default Button;
 
+Button.propTypes = {
+    nextPage: PropTypes.func.isRequired,
+    isdisabledBtn: PropTypes.bool.isRequired,
+}

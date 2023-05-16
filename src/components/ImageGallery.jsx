@@ -1,6 +1,6 @@
 import React from "react";
 import ImageGalleryItem from "./ImageGalleryItem";
-
+import { PropTypes } from 'prop-types';
 
 const ImageGallery = ({ photos, onSelect }) => {
 
@@ -15,3 +15,13 @@ const ImageGallery = ({ photos, onSelect }) => {
 
 
 export default ImageGallery;
+
+
+ImageGallery.propTypes = {
+    onSelect: PropTypes.func.isRequired,
+    photos: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        webformatURL: PropTypes.string.isRequired,
+        largeImageURL: PropTypes.string.isRequired,
+    }).isRequired).isRequired
+}

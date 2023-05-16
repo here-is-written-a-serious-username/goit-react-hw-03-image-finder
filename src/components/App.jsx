@@ -96,7 +96,6 @@ export class App extends Component {
   };
 
   selectPhoto = link => {
-    console.log(link);
     this.setState({ selectedPhoto: link });
   };
 
