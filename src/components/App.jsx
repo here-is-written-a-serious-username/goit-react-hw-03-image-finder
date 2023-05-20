@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ImageGallery from './ImageGallery';
 import Searchbar from './Searchbar';
-import getPhoto from './getPhoto'
+import getPhoto from '../getPhoto'
 import Button from './Button';
 import Modal from './Modal';
 
@@ -106,7 +106,7 @@ export class App extends Component {
       <div className='App'>
         <Searchbar onSubmit={this.handleSubmit} />
 
-        <ImageGallery photos={photos} onSelect={this.selectPhoto} />
+        {photos.length ? <ImageGallery photos={photos} onSelect={this.selectPhoto} /> : null}
 
         {isLoading && <BallTriangle wrapperClass={'loader'} color={"#3f51b5"} height={60} width={60} />}
 
