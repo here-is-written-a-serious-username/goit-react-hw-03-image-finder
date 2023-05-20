@@ -4,6 +4,7 @@ const PARAM = 'image_type=photo&orientation=horizontal'
 
 
 function getPhoto(search, page, perPage) {
+
     return fetch(`${BASE_URL}/?q=${search}&${KEY}&${PARAM}&per_page=${perPage}&page=${page}`)
         .then(response => response.json());
 }

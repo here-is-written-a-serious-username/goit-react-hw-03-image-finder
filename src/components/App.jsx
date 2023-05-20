@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import ImageGallery from './ImageGallery';
 import Searchbar from './Searchbar';
-import getPhoto from '../getPhoto'
+import getPhoto from '../helpers/getPhoto'
 import Button from './Button';
 import Modal from './Modal';
+import STATUS from 'constants/status.constants';
 
 import { BallTriangle } from 'react-loader-spinner'
 
@@ -12,12 +13,6 @@ import { BallTriangle } from 'react-loader-spinner'
 
 // let lightbox = new SimpleLightbox('.gallery a');
 
-// const STATUS = {
-//   idle: 'idle',
-//   loading: 'loading',
-//   success: 'success',
-//   error: 'error',
-// };
 
 export class App extends Component {
   state = {
@@ -26,8 +21,7 @@ export class App extends Component {
     perPage: 12,
     photos: [],
     totalHits: 0,
-    isLoading: false,
-    // status: STATUS.idle, // 'idle', 'loading', 'success', 'error'
+    status: STATUS.idle, // 'idle', 'loading', 'success', 'error'
     showModal: false,
     selectedPhoto: null,
   }
@@ -38,7 +32,7 @@ export class App extends Component {
     if (prevState.search !== search) {
 
       this.setState({
-        isLoading: true,
+        status: STATUS.loading,
         page: 1,
         photos: [],
       });
@@ -48,17 +42,17 @@ export class App extends Component {
 
     if (prevState.page !== page && page !== 1) {
 
-      this.setState({ isLoading: true });
+      this.setState({ status: STATUS.loading });
       this.fetchData({ search, page, perPage });
     }
 
     // if (prevState.photos !== this.state.photos) {
     //   lightbox.refresh();
     // }
-    if (prevState.selectedPhoto !== selectedPhoto) {
-      this.setState({ showModal: true, });
-    }
 
+    // if (prevState.selectedPhoto !== selectedPhoto) {
+    //   this.setState({ showModal: true, });
+    // }
   }
 
   fetchData = ({ search, page = 1, perPage }) => {
@@ -70,7 +64,7 @@ export class App extends Component {
     }).catch(error => {
       console.error(error.message);
     }).finally(() => {
-      this.setState({ isLoading: false });
+      this.setState({ status: STATUS.success });
     });
   }
 
@@ -100,17 +94,17 @@ export class App extends Component {
   };
 
   render() {
-    const { photos, isLoading, showModal, selectedPhoto } = this.state;
+    const { photos, status, showModal, selectedPhoto } = this.state;
     return (
 
       <div className='App'>
         <Searchbar onSubmit={this.handleSubmit} />
 
-        {photos.length ? <ImageGallery photos={photos} onSelect={this.selectPhoto} /> : null}
+        {photos.length ? <ImageGallery photos={photos} onSelect={this.selectPhoto} onOpen={this.toggleModal} /> : null}
 
-        {isLoading && <BallTriangle wrapperClass={'loader'} color={"#3f51b5"} height={60} width={60} />}
+        {status === STATUS.loading && <BallTriangle wrapperClass={'loader'} color={"#3f51b5"} height={60} width={60} />}
 
-        {photos.length ? <Button nextPage={this.pageCount} isdisabledBtn={this.isdisabledBtn()} /> : null}
+        {(status === STATUS.success && photos.length !== 0) && <Button nextPage={this.pageCount} isdisabledBtn={this.isdisabledBtn()} />}
 
         {showModal && (<Modal onClose={this.toggleModal}>
           <img src={selectedPhoto} alt="big img" />

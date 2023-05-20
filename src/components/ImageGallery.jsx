@@ -2,12 +2,12 @@ import React from "react";
 import ImageGalleryItem from "./ImageGalleryItem";
 import { PropTypes } from 'prop-types';
 
-const ImageGallery = ({ photos, onSelect }) => {
+const ImageGallery = ({ photos, onSelect, onOpen }) => {
 
     return (
         <ul className="ImageGallery gallery">
             {photos.map((photo) => (
-                <ImageGalleryItem key={photo.id} webformatURL={photo.webformatURL} largeImageURL={photo.largeImageURL} onSelect={onSelect} />
+                <ImageGalleryItem key={photo.id} webformatURL={photo.webformatURL} largeImageURL={photo.largeImageURL} onSelect={onSelect} onOpen={onOpen} />
             ))}
         </ul>
     )
